@@ -4,3 +4,24 @@ plugins {
     id 'com.android.library' version '8.0.1' apply false
     id 'org.jetbrains.kotlin.android' version '1.8.20' apply false
 }
+
+allprojects{
+    ext{
+        def major = 1
+        def minor = 0
+        def patch = 0
+
+        versions = [
+                compileSdk          : 33,
+                minSdk              : 21,
+                targetSdk           : 33,
+                versionCode         : major*10000 + minor*100 + patch,
+                versionName         : "$major.$minor.$patch",
+                lifecycleVersion    : '2.5.1',
+                retrofit            : '2.9.0',
+                glide               : '4.14.2',
+                okHttp3             : '4.10.0',
+                coreDesugaring      : '1.1.5'
+        ]
+    }
+}
