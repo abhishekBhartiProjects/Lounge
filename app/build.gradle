@@ -11,6 +11,11 @@ android {
     namespace 'com.abhishekbharti.lounge'
     compileSdk 33
 
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId "com.abhishekbharti.lounge"
         minSdkVersion versions.minSdk
@@ -21,10 +26,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildFeatures {
-        buildConfig = true
-        viewBinding = true
-    }
+
 
     buildTypes {
         preprod {
