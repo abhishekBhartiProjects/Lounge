@@ -11,6 +11,7 @@ import com.abhishekbharti.lounge.databinding.HomeActivityBinding
 import org.jetbrains.annotations.Nullable
 import java.util.Locale
 import java.util.Objects
+import java.util.zip.Inflater
 
 class HomeActivity : AppCompatActivity() {
 
@@ -20,7 +21,8 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.home_activity)
+        mBinding = HomeActivityBinding.inflate(layoutInflater)
+        setContentView(mBinding.root)
 
         initView()
     }

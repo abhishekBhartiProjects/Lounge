@@ -13,6 +13,7 @@ android {
     buildFeatures {
         buildConfig = true
         viewBinding = true
+        dataBinding = true
     }
     defaultConfig {
         applicationId "com.abhishekbharti.lounge"
@@ -20,7 +21,6 @@ android {
         targetSdkVersion versions.compileSdk
         versionCode versions.versionCode
         versionName versions.versionName
-        buildConfigField("String", "OPENAPI_KEY", "\"" + OPENAPI_KEY + "\"")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,42 +33,46 @@ android {
         jvmTarget = JavaVersion.VERSION_17.toString()
         freeCompilerArgs += ["-Xopt-in=kotlin.RequiresOptIn", "-opt-in=kotlin.RequiresOptIn"]
     }
+    signingConfigs {
+        debug {
+            try {
+                keyAlias "Alias"
+                keyPassword DEBUG_KEYSTORE_PASSWORD
+                storePassword DEBUG_KEYSTORE_PASSWORD
+                storeFile file("../keystores/keystore")
+            } catch (ignored) {
+                throw new InvalidUserDataException("You should define DEBUG_KEYSTORE_PASSWORD in gradle.properties.")
+            }
+        }
+
+        release {
+            try {
+                keyAlias "Alias"
+                keyPassword RELEASE_KEYSTORE_PASSWORD
+                storePassword RELEASE_KEYSTORE_PASSWORD
+                storeFile file("../keystores/keystore")
+            } catch (ignored) {
+                throw new InvalidUserDataException("You should define RELEASE_KEYSTORE_PASSWORD in gradle.properties.")
+            }
+        }
+    }
     buildTypes {
         preprod {
             minifyEnabled false
             debuggable true
+            buildConfigField("String", "OPENAPI_KEY", "\"" + OPENAPI_KEY + "\"")
             buildConfigField("String", "BASE_URL", "\"" + PREPROD_DOMAIN + "\"")
+            signingConfig signingConfigs.debug
         }
         prod {
             minifyEnabled true
             debuggable false
+            buildConfigField("String", "OPENAPI_KEY", "\"" + OPENAPI_KEY + "\"")
             buildConfigField("String", "BASE_URL", "\"" + PROD_DOMAIN + "\"")
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-//    signingConfigs {
-//        debug {
-//            try {
-//                keyAlias "alias"
-//                keyPassword DEBUG_KEYSTORE_PASSWORD
-//                storePassword DEBUG_KEYSTORE_PASSWORD
-//                storeFile file("../debug.keystore")
-//            } catch (ignored) {
-//                throw new InvalidUserDataException("You should define DEBUG_KEYSTORE_PASSWORD in gradle.properties.")
-//            }
-//        }
-//
-//        release {
-//            try {
-//                keyAlias "alias"
-//                keyPassword RELEASE_KEYSTORE_PASSWORD
-//                storePassword RELEASE_KEYSTORE_PASSWORD
-//                storeFile file("../release.keystore")
-//            } catch (ignored) {
-//                throw new InvalidUserDataException("You should define RELEASE_KEYSTORE_PASSWORD in gradle.properties.")
-//            }
-//        }
-//    }
 }
 
 dependencies {

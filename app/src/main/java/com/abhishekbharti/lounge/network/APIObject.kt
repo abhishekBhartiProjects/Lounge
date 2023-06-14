@@ -1,6 +1,7 @@
 package com.abhishekbharti.lounge.network
 
 import com.abhishekbharti.lounge.BuildConfig
+import com.abhishekbharti.lounge.common.SharedPreferenceManager
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -17,7 +18,7 @@ object APIObject {
 
     fun build(): APIInterface {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.openai.com/")
+            .baseUrl(BuildConfig.BASE_URL)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient())
@@ -42,7 +43,8 @@ object APIObject {
             val original = chain.request()
             val requestBuilder = original.newBuilder()
             requestBuilder.addHeader(CONTENT_TYPE, CONTENT_TYPE_VALUE)
-            requestBuilder.addHeader("Authorization", "Bearer ${BuildConfig.OPENAPI_KEY}")
+            requestBuilder.addHeader("Authorization", "Bearer ${SharedPreferenceManager.getUserSessionToken()}")
+//            requestBuilder.addHeader("Authorization", "Bearer ${BuildConfig.OPENAPI_KEY}")
 
             if (cacheDuration > 0) {
                 requestBuilder.addHeader("Cache-Control", "public, max-age=$cacheDuration")

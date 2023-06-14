@@ -4,8 +4,10 @@ import android.app.Application
 import com.abhishekbharti.lounge.network.APIInterface
 import com.abhishekbharti.lounge.network.APIObject
 
-class LoungeApplication: Application() {
+class LoungeApplication: Application(){
 
+    @Volatile
+    private var apiInterface: APIInterface? = null
     companion object {
         @Volatile
         private var instance: LoungeApplication? = null
@@ -13,11 +15,9 @@ class LoungeApplication: Application() {
         fun getInstance(): LoungeApplication = instance ?: LoungeApplication()
     }
 
-    @Volatile
-    private var apiInterface: APIInterface? = null
-
     override fun onCreate() {
         super.onCreate()
+        instance = this@LoungeApplication
     }
 
     @Synchronized

@@ -7,17 +7,481 @@
     android:background="@color/black"
     tools:context=".login.LoginActivity">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login via Gmail"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="10dp"
-        android:textColor="@color/white"
-        android:backgroundTint="#A10467"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <!--  login screen  -->
+    <com.abhishekbharti.lounge.common.SlideViewLayout
+        android:id="@+id/loginSvl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:visibility="visible"
+        app:animDuration="400"
+        app:animIntervalOffset="50"
+        app:animStartOffset="200"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:visibility="visible">
+
+        <View
+            android:id="@+id/invisibleView"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="visible"
+            tools:visibility="gone"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/crossIv"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            app:srcCompat="@drawable/ic_cross_thin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+        <!--  skip  -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/skipMcv"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="20dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="visible"
+            app:cardBackgroundColor="#66000000"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="#99FFFFFF"
+            app:strokeWidth="1dp"
+            tools:ignore="TouchTargetSizeCheck">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/skipTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="5dp"
+                android:text="Skip"
+                android:textColor="@color/white"
+                android:visibility="visible"
+                tools:ignore="TextContrastCheck"
+                tools:visibility="visible" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--            title-->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/loginTitleTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginTop="20dp"
+            android:textSize="17sp"
+            android:textColor="@color/white"
+            android:text="Hello! Welcome to Mahol"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/invisibleView" />
+
+        <!--            phone no input field-->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/phoneNumberMcv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:layout_marginHorizontal="24dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/loginTitleTv"
+            app:strokeColor="#3E434C">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/countryFlagLl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="#3E434C"
+                    android:gravity="center_vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/flagTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        tools:text="🇮🇳"
+                        android:textColor="@color/white"
+                        android:layout_marginStart="15dp"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="14dp"
+                        android:layout_height="12dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="10dp"
+                        app:srcCompat="@drawable/ic_arrow_forward_thin"
+                        android:rotation="90"
+                        app:tint="@color/white"/>
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/countryCodeTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:focusable="false"
+                    android:maxLines="1"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="12dp"
+                    android:textColor="#6A7181"
+                    android:textSize="16sp"
+                    tools:ignore="TextContrastCheck"
+                    tools:text="+91"
+                    android:visibility="visible"/>
+
+                <!-- Max length of phone number including country code is 15 -->
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phoneInputEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:background="@android:color/transparent"
+                    android:ellipsize="end"
+                    android:hint="Enter Mobile Number"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    android:paddingVertical="12dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="#6A7181"
+                    android:textCursorDrawable="@null"
+                    android:textSize="16sp"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--            send otp button-->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/sendOtpButtonMcv"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="66dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phoneNumberMcv"
+            tools:ignore="DuplicateClickableBoundsCheck,TouchTargetSizeCheck">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/sendOtpTextTv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="8dp"
+                android:gravity="center_vertical"
+                android:text="Send OTP"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--            divider left-->
+        <View
+            android:id="@+id/dividerLeft"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#4E545F"
+            android:alpha="0.2"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            app:layout_constraintTop_toTopOf="@id/orTv"
+            app:layout_constraintBottom_toBottomOf="@id/orTv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/orTv"/>
+
+        <!--            or-->
+        <TextView
+            android:id="@+id/orTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="Or"
+            android:textColor="#4E545F"
+            android:textSize="9sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sendOtpButtonMcv"/>
+
+        <!--            divider Right-->
+        <View
+            android:id="@+id/dividerRight"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#4E545F"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            app:layout_constraintTop_toTopOf="@id/orTv"
+            app:layout_constraintBottom_toBottomOf="@id/orTv"
+            app:layout_constraintStart_toEndOf="@id/orTv"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:alpha="0.2"/>
+
+        <!--            google button-->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/googleButtonMcv"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="20dp"
+            android:clickable="true"
+            android:contentDescription="Google Login"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="#00000000"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/orTv"
+            app:strokeColor="#3E434C"
+            app:strokeWidth="1dp"
+            tools:ignore="TouchTargetSizeCheck"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_google_icon2" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="Google"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_arrow_forward_thin"
+                    app:tint="@android:color/white" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </com.abhishekbharti.lounge.common.SlideViewLayout>
+
+    <!--   otp screen   -->
+    <com.abhishekbharti.lounge.common.SlideViewLayout
+        android:id="@+id/otpSvl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:visibility="gone"
+        app:animDuration="400"
+        app:animIntervalOffset="50"
+        app:animStartOffset="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:visibility="gone">
+
+        <View
+            android:id="@+id/invisibleView2"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="visible"
+            tools:visibility="visible"/>
+
+        <!--  back  -->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/backIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="24dp"
+            android:paddingVertical="16dp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_back1"
+            app:tint="@color/white"/>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/otpTitleTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginTop="60dp"
+            android:text="OTP sent to {x}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/editTv"
+            app:layout_constraintTop_toBottomOf="@id/invisibleView2" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/editTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:textColor="#F59E0B"
+            android:paddingVertical="5dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/otpTitleTv"
+            app:layout_constraintBottom_toBottomOf="@id/otpTitleTv"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/otpMcv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="24dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/otpTitleTv"
+            app:strokeColor="#3E434C">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/otpEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_gravity="center_vertical"
+                android:textColorHighlight="@color/white"
+                android:background="@android:color/transparent"
+                android:hint="Enter 6 digit OTP"
+                android:maxLines="1"
+                android:maxLength="6"
+                android:inputType="number"
+                android:digits="0123456789"
+                android:ellipsize="end"
+                android:imeOptions="actionDone"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="12dp"
+                android:textColor="@color/white"
+                android:textColorHint="#6A7181"
+                android:textCursorDrawable="@null"
+                android:textSize="16sp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/invalidOtpTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Invalid OTP"
+            android:textColor="#EF4444"
+            android:textSize="9sp"
+            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@id/otpMcv"
+            app:layout_constraintTop_toBottomOf="@id/otpMcv"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/resendOtpTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="30"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@id/otpMcv"
+            app:layout_constraintTop_toBottomOf="@id/otpMcv"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/warningMsgTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintEnd_toEndOf="@+id/submitOtpButtonMcv"
+            app:layout_constraintStart_toStartOf="@+id/submitOtpButtonMcv"
+            app:layout_constraintBottom_toTopOf="@+id/submitOtpButtonMcv"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/submitOtpButtonMcv"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginHorizontal="24dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/otpMcv"
+            tools:ignore="DuplicateClickableBoundsCheck,TouchTargetSizeCheck">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="8dp"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:text="Continue"
+                android:textColor="@color/black"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </com.abhishekbharti.lounge.common.SlideViewLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

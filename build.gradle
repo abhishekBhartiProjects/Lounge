@@ -6,6 +6,10 @@ plugins {
 }
 
 allprojects{
+    repositories {
+        google()
+        mavenCentral()
+    }
     ext{
         def major = 1
         def minor = 0
