@@ -9,13 +9,11 @@ apply plugin: 'kotlin-kapt'
 
 android {
     namespace 'com.abhishekbharti.lounge'
-    compileSdk 33
-
+    compileSdk versions.compileSdk
     buildFeatures {
         buildConfig = true
         viewBinding = true
     }
-
     defaultConfig {
         applicationId "com.abhishekbharti.lounge"
         minSdkVersion versions.minSdk
@@ -26,15 +24,21 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
-
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+        coreLibraryDesugaringEnabled true
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.toString()
+        freeCompilerArgs += ["-Xopt-in=kotlin.RequiresOptIn", "-opt-in=kotlin.RequiresOptIn"]
+    }
     buildTypes {
         preprod {
             minifyEnabled false
             debuggable true
             buildConfigField("String", "BASE_URL", "\"" + PREPROD_DOMAIN + "\"")
         }
-
         prod {
             minifyEnabled true
             debuggable false
@@ -42,21 +46,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-        coreLibraryDesugaringEnabled true
-    }
-//    java {
-//        sourceCompatibility = JavaVersion.VERSION_11
-//        targetCompatibility = JavaVersion.VERSION_11
-//    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-        freeCompilerArgs += ["-Xopt-in=kotlin.RequiresOptIn", "-opt-in=kotlin.RequiresOptIn"]
-    }
-
-
 //    signingConfigs {
 //        debug {
 //            try {
