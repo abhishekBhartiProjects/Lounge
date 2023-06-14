@@ -91,6 +91,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
+    //Auth
+    implementation 'com.google.android.gms:play-services-auth:20.5.0'
+
     //Retrofit
     api "com.squareup.retrofit2:retrofit:$versions.retrofit"
     api "com.squareup.retrofit2:converter-gson:$versions.retrofit"
