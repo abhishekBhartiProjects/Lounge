@@ -15,9 +15,12 @@ import com.abhishekbharti.lounge.R
 import com.abhishekbharti.lounge.common.PhoneNumberUtils
 import com.abhishekbharti.lounge.common.SharedPreferenceManager
 import com.abhishekbharti.lounge.common.SlideViewLayout
+import com.abhishekbharti.lounge.community.CommunityActivity
 import com.abhishekbharti.lounge.databinding.LoginActivityBinding
 import com.abhishekbharti.lounge.home.HomeActivity
 import com.abhishekbharti.lounge.network.RequestResult
+import com.abhishekbharti.lounge.profile.ProfileActivity
+import com.abhishekbharti.lounge.response.ProfileResponse
 import com.abhishekbharti.lounge.response.SendOtpResponse
 import com.abhishekbharti.lounge.response.VerifyOtpResponse
 
@@ -61,6 +64,18 @@ class LoginActivity : AppCompatActivity() {
                 }
                 else -> {
                     Toast.makeText(this, "Couldnot verify OTP", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        viewModel.getProfileResponseMLD.observe(this) {
+            when(it) {
+                is RequestResult.Loading -> {}
+                is RequestResult.Success -> {
+                    onGetProfileResponseSuccess(it.data as ProfileResponse)
+                }
+                else -> {
+                    navigateToNextScreen(null)
                 }
             }
         }
@@ -193,10 +208,14 @@ class LoginActivity : AppCompatActivity() {
     private fun onVerifyOtpResponseSuccess(verifyOtpResponse: VerifyOtpResponse){
         if(verifyOtpResponse.token.isNotEmpty()){
             SharedPreferenceManager.setUserSessionToken(verifyOtpResponse.token)
-            navigateToNextScreen()
+            viewModel.getProfile()
         } else {
             Toast.makeText(this, "Invalid token!", Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun onGetProfileResponseSuccess(profileResponse: ProfileResponse){
+        navigateToNextScreen(profileResponse)
     }
 
     private fun initOtpScreen() {
@@ -238,8 +257,14 @@ class LoginActivity : AppCompatActivity() {
         }, SlideViewLayout.animDuration)
     }
 
-    private fun navigateToNextScreen(){
-        startActivity(Intent(this, HomeActivity::class.java))
+    private fun navigateToNextScreen(profileResponse: ProfileResponse?){
+        if(profileResponse == null || profileResponse.user == null || profileResponse.user.name.isNullOrEmpty()){
+            startActivity(Intent(this, ProfileActivity::class.java))
+        } else if(SharedPreferenceManager.getCurrentCommunityId() == -1){
+            startActivity(Intent(this, CommunityActivity::class.java))
+        } else {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
         finish()
     }
 }

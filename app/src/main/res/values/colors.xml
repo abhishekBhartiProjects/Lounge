@@ -11,4 +11,5 @@
     <color name="light_black_6C6C6C">#6C6C6C</color>
     <color name="yellow_E3B100">#E3B100</color>
     <color name="blue_1DA1F2">#1DA1F2</color>
+    <color name="border_color">#33C4C4C4</color>
 </resources>

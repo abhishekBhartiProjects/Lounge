@@ -13,16 +13,21 @@ import androidx.activity.viewModels
 import com.abhishekbharti.lounge.LoungeApplication
 import com.abhishekbharti.lounge.R
 import com.abhishekbharti.lounge.common.SharedPreferenceManager
+import com.abhishekbharti.lounge.community.CommunityActivity
 import com.abhishekbharti.lounge.databinding.SplashActivityBinding
 import com.abhishekbharti.lounge.home.HomeActivity
 import com.abhishekbharti.lounge.home.HomeViewModel
 import com.abhishekbharti.lounge.login.LoginActivity
+import com.abhishekbharti.lounge.login.LoginViewModel
 import com.abhishekbharti.lounge.network.RequestResult
+import com.abhishekbharti.lounge.profile.ProfileActivity
+import com.abhishekbharti.lounge.response.ProfileResponse
 import com.abhishekbharti.lounge.response.UserDetailsResponse
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var mBinding: SplashActivityBinding
     private val viewModel: SplashViewModel by viewModels()
+    private val loginViewModel: LoginViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = SplashActivityBinding.inflate(layoutInflater)
@@ -38,6 +43,18 @@ class SplashActivity : AppCompatActivity() {
                 is RequestResult.Loading -> {}
                 is RequestResult.Success -> { onGetUserSuccess(it.data as UserDetailsResponse)}
                 else -> { Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show()}
+            }
+        }
+
+        loginViewModel.getProfileResponseMLD.observe(this) {
+            when(it) {
+                is RequestResult.Loading -> {}
+                is RequestResult.Success -> {
+                    onGetProfileResponseSuccess(it.data as ProfileResponse)
+                }
+                else -> {
+                    navigateToNextScreen(null)
+                }
             }
         }
     }
@@ -67,11 +84,9 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun initNavigation(){
-//        Handler(Looper.getMainLooper()).postDelayed({
-//            openLogin()
-//        }, 2000)
+
         if(SharedPreferenceManager.getUserSessionToken().isNotEmpty()){
-            getUserDetails()
+            getProfile()
         } else {
             Handler(Looper.getMainLooper()).postDelayed({
                 openLogin()
@@ -87,17 +102,23 @@ class SplashActivity : AppCompatActivity() {
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
     }
-    private fun getUserDetails(){
-//        viewModel.getUserDetails()
-
-        openHome()
+    private fun getProfile(){
+        loginViewModel.getProfile()
     }
 
-    private fun openHome(){
-        startActivity(Intent(this, HomeActivity::class.java))
+    private fun onGetProfileResponseSuccess(profileResponse: ProfileResponse){
+        navigateToNextScreen(profileResponse)
+    }
+
+    private fun navigateToNextScreen(profileResponse: ProfileResponse?){
+        if(profileResponse == null || profileResponse.user == null || profileResponse.user.name.isNullOrEmpty()){
+            startActivity(Intent(this, ProfileActivity::class.java))
+        } else if(SharedPreferenceManager.getCurrentCommunityId() == -1){
+            startActivity(Intent(this, CommunityActivity::class.java))
+        } else {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
         finish()
     }
-
-
 
 }

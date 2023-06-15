@@ -5,6 +5,7 @@ import com.abhishekbharti.lounge.common.PhoneNumberUtils
 import com.abhishekbharti.lounge.network.RequestResult
 import com.abhishekbharti.lounge.requestBody.SendOtpRequestBody
 import com.abhishekbharti.lounge.requestBody.VerifyOtpRequestBody
+import com.abhishekbharti.lounge.response.ProfileResponse
 import com.abhishekbharti.lounge.response.SendOtpResponse
 import com.abhishekbharti.lounge.response.VerifyOtpResponse
 import kotlinx.coroutines.Dispatchers
@@ -40,6 +41,19 @@ class LoginRepo: BaseRepo() {
                         otp = otpString
                     }
                     apiInterfaceWithoutToken.verifyMobileVerificationOtp(requestBody)
+                }, {
+                    RequestResult.Success(it.body())
+                }
+            )
+        }
+    }
+
+    suspend fun getProfile(
+    ): RequestResult<ProfileResponse?> {
+        return withContext(Dispatchers.IO) {
+            return@withContext handleCommonResponse(
+                {
+                    apiInterface.getProfile()
                 }, {
                     RequestResult.Success(it.body())
                 }

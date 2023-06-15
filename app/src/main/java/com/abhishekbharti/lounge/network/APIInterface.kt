@@ -7,6 +7,7 @@ import com.abhishekbharti.lounge.requestBody.VerifyOtpRequestBody
 import com.abhishekbharti.lounge.response.CompletionResponse
 import com.abhishekbharti.lounge.response.FeedPostResponse
 import com.abhishekbharti.lounge.response.GenerateImageResponse
+import com.abhishekbharti.lounge.response.ProfileResponse
 import com.abhishekbharti.lounge.response.SendOtpResponse
 import com.abhishekbharti.lounge.response.TranscriptionResponse
 import com.abhishekbharti.lounge.response.UserDetailsResponse
@@ -51,8 +52,8 @@ interface APIInterface {
         @Body requestBody: VerifyOtpRequestBody
     ): Response<VerifyOtpResponse>
 
-    @GET("users/me")
-    suspend fun getUserDetails():Response<UserDetailsResponse>
+    @GET("api/v1/users/profile")
+    suspend fun getProfile():Response<ProfileResponse>
 
     @GET("api/v1/posts/get-posts/?community_id=1&page=1")
     suspend fun getFeedPost(

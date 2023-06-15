@@ -12,15 +12,15 @@ class SplashViewModel: BaseViewModel() {
     private val repo = SplashRepo()
     var getUserDetailsResponseMLD: MutableLiveData<RequestResult<Any?>> = MutableLiveData()
 
-    fun getUserDetails(){
-        viewModelScope.launch(exceptionHandler){
-            try{
-                getUserDetailsResponseMLD.value = RequestResult.Loading("")
-                val result = repo.getUserDetails()
-                getUserDetailsResponseMLD.value = result
-            } catch (e: Exception){
-                getUserDetailsResponseMLD.value = RequestResult.OtherError(e)
-            }
-        }
-    }
+//    fun getProfile(){
+//        viewModelScope.launch(exceptionHandler){
+//            try{
+//                getUserDetailsResponseMLD.value = RequestResult.Loading("")
+//                val result = repo.getProfile()
+//                getUserDetailsResponseMLD.value = result
+//            } catch (e: Exception){
+//                getUserDetailsResponseMLD.value = RequestResult.OtherError(e)
+//            }
+//        }
+//    }
 }

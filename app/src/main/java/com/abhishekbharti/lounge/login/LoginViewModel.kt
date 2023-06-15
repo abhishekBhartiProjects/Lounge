@@ -10,6 +10,7 @@ class LoginViewModel: BaseViewModel() {
     private val repo = LoginRepo()
     var sendOtpResponseMLD: MutableLiveData<RequestResult<Any?>> = MutableLiveData()
     var verifyOtpResponseMLD: MutableLiveData<RequestResult<Any?>> = MutableLiveData()
+    var getProfileResponseMLD: MutableLiveData<RequestResult<Any?>> = MutableLiveData()
 
     fun sendOtp(phone: String, countryCode: String){
         viewModelScope.launch(exceptionHandler) {
@@ -31,6 +32,18 @@ class LoginViewModel: BaseViewModel() {
                 verifyOtpResponseMLD.value = result
             } catch (e: Exception) {
                 verifyOtpResponseMLD.value = RequestResult.OtherError(e)
+            }
+        }
+    }
+
+    fun getProfile(){
+        viewModelScope.launch(exceptionHandler) {
+            try {
+                getProfileResponseMLD.value = RequestResult.Loading("")
+                val result = repo.getProfile()
+                getProfileResponseMLD.value = result
+            } catch (e: Exception) {
+                getProfileResponseMLD.value = RequestResult.OtherError(e)
             }
         }
     }

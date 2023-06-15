@@ -5,4 +5,11 @@
         <attr name="animStartOffset" format="reference|integer" />
         <attr name="animIntervalOffset" format="reference|integer" />
     </declare-styleable>
+    <declare-styleable name="UIComponentInputField">
+        <attr name="titleHint" format="string" />
+        <attr name="subTitleHint" format="string" />
+        <attr name="inputHint" format="string" />
+        <attr name="inputRightIcon" format="reference" />
+        <attr name="mandatory" format="boolean" />
+    </declare-styleable>
 </resources>

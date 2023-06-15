@@ -8,4 +8,6 @@
     <string name="feed">Feed</string>
     <string name="explore">Explore</string>
     <string name="members">Members</string>
+    <string name="m_n">%d/%d</string>
+    <string name="date_of_birth">Date of birth</string>
 </resources>

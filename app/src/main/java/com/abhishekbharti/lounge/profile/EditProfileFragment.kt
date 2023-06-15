@@ -1,20 +1,18 @@
 package com.abhishekbharti.lounge.profile
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.abhishekbharti.lounge.R
+import androidx.fragment.app.Fragment
+import com.abhishekbharti.lounge.databinding.EditProfileFragmentBinding.inflate
 import com.abhishekbharti.lounge.databinding.EditProfileFragmentBinding
-import com.abhishekbharti.lounge.databinding.ProfileFragmentBinding
 
-
-class ProfileFragment: Fragment() {
-    var mBinding: ProfileFragmentBinding? = null
+class EditProfileFragment: Fragment() {
+    var mBinding: EditProfileFragmentBinding? = null
 
     companion object {
-        fun newInstance(): ProfileFragment = ProfileFragment()
+        fun newInstance(): EditProfileFragment = EditProfileFragment()
     }
 
     override fun onCreateView(
@@ -22,7 +20,7 @@ class ProfileFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mBinding = ProfileFragmentBinding.inflate(inflater, container, false)
+        mBinding = inflate(inflater, container, false)
         return mBinding?.root
     }
 }
