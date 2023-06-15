@@ -7,6 +7,7 @@ import retrofit2.Response
 open class BaseRepo {
     val mApplication = LoungeApplication.getInstance()
     val apiInterface = mApplication.getAPIInterface()
+    val apiInterfaceWithoutToken = mApplication.getWithoutTokenIAPIService()
 
     suspend fun <T, R> handleCommonResponse(
         requestFunc: suspend () -> Response<T>,

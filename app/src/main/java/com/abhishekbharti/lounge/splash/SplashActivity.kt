@@ -8,6 +8,7 @@ import android.os.Looper
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.abhishekbharti.lounge.LoungeApplication
 import com.abhishekbharti.lounge.R
@@ -15,6 +16,8 @@ import com.abhishekbharti.lounge.common.SharedPreferenceManager
 import com.abhishekbharti.lounge.databinding.SplashActivityBinding
 import com.abhishekbharti.lounge.home.HomeViewModel
 import com.abhishekbharti.lounge.login.LoginActivity
+import com.abhishekbharti.lounge.network.RequestResult
+import com.abhishekbharti.lounge.response.UserDetailsResponse
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var mBinding: SplashActivityBinding
@@ -24,35 +27,25 @@ class SplashActivity : AppCompatActivity() {
         mBinding = SplashActivityBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
 
+        initViewModelObserver()
         initViews()
+    }
+
+    private fun initViewModelObserver(){
+        viewModel.getUserDetailsResponseMLD.observe(this){
+            when(it){
+                is RequestResult.Loading -> {}
+                is RequestResult.Success -> { onGetUserSuccess(it.data as UserDetailsResponse)}
+                else -> { Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show()}
+            }
+        }
     }
 
     private fun initViews(){
         mBinding.apply {
             val animation = AnimationUtils.loadAnimation(this@SplashActivity, R.anim.fade_in)
             startAnimation(logoCl, animation)
-//            Handler(Looper.getMainLooper()).postDelayed({
-//                val animation = AnimationUtils.loadAnimation(this@SplashActivity, R.anim.slide_up)
-//                startAnimation(mBinding.taglineTv, animation)
-//            }, 2000)
-
-            if(true || SharedPreferenceManager.getUserSessionToken().isNotEmpty()){
-                getUserDetails()
-            } else {
-                Handler(Looper.getMainLooper()).postDelayed({
-                    openLogin()
-                }, 2000)
-            }
         }
-    }
-
-    private fun openLogin(){
-        startActivity(Intent(this, LoginActivity::class.java))
-        finish()
-    }
-
-    private fun getUserDetails(){
-        viewModel.getUserDetails()
     }
 
     private fun startAnimation(view: View, animation: Animation) {
@@ -63,6 +56,7 @@ class SplashActivity : AppCompatActivity() {
 
             override fun onAnimationEnd(animation: Animation?) {
                 view.visibility = View.VISIBLE
+                initNavigation()
             }
 
             override fun onAnimationRepeat(animation: Animation?) {
@@ -70,6 +64,32 @@ class SplashActivity : AppCompatActivity() {
         })
         view.startAnimation(animation)
     }
+
+    private fun initNavigation(){
+        Handler(Looper.getMainLooper()).postDelayed({
+            openLogin()
+        }, 2000)
+//        if(SharedPreferenceManager.getUserSessionToken().isNotEmpty()){
+//            getUserDetails()
+//        } else {
+//            Handler(Looper.getMainLooper()).postDelayed({
+//                openLogin()
+//            }, 2000)
+//        }
+    }
+
+    private fun onGetUserSuccess(userDetailsResponse: UserDetailsResponse){
+
+    }
+
+    private fun openLogin(){
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
+    }
+    private fun getUserDetails(){
+        viewModel.getUserDetails()
+    }
+
 
 
 }

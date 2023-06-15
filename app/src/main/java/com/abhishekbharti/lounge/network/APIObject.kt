@@ -27,6 +27,17 @@ object APIObject {
         return retrofit.create(APIInterface::class.java)
     }
 
+    fun build(timeout: Long, bearer: Boolean): APIInterface {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient(timeout, bearer))
+            .build()
+
+        return retrofit.create(APIInterface::class.java)
+    }
+
     private fun okHttpClient(): OkHttpClient {
         val httpClient = OkHttpClient.Builder()
         httpClient.interceptors().add(interceptor(0))
@@ -38,19 +49,46 @@ object APIObject {
         return httpClient.build()
     }
 
+    private fun okHttpClient(timeout: Long, bearer: Boolean): OkHttpClient {
+        val httpClient = OkHttpClient.Builder()
+        httpClient.interceptors().add(if (bearer) interceptor(0) else interceptorWithOutBearer())
+        httpClient.readTimeout(timeout, TimeUnit.SECONDS)
+        httpClient.connectTimeout(timeout, TimeUnit.SECONDS)
+        httpClient.writeTimeout(timeout, TimeUnit.SECONDS)
+        if (BuildConfig.DEBUG)
+            httpClient.interceptors().add(httpLoggingInterceptor())
+        return httpClient.build()
+    }
+
     private fun interceptor(cacheDuration: Long): Interceptor {
         return Interceptor { chain ->
             val original = chain.request()
             val requestBuilder = original.newBuilder()
-            requestBuilder.addHeader(CONTENT_TYPE, CONTENT_TYPE_VALUE)
-            requestBuilder.addHeader("Authorization", "Bearer ${SharedPreferenceManager.getUserSessionToken()}")
+            if(SharedPreferenceManager.getUserSessionToken().isNotEmpty()){
+                requestBuilder.addHeader("Authorization", SharedPreferenceManager.getUserSessionToken())
+            }
+
+//            requestBuilder.addHeader(CONTENT_TYPE, CONTENT_TYPE_VALUE)
+//            requestBuilder.addHeader("Authorization", "Bearer ${SharedPreferenceManager.getUserSessionToken()}")
 //            requestBuilder.addHeader("Authorization", "Bearer ${BuildConfig.OPENAPI_KEY}")
 
-            if (cacheDuration > 0) {
-                requestBuilder.addHeader("Cache-Control", "public, max-age=$cacheDuration")
-            }
-            requestBuilder.addHeader("app-version", BuildConfig.VERSION_CODE.toString())
+//            if (cacheDuration > 0) {
+//                requestBuilder.addHeader("Cache-Control", "public, max-age=$cacheDuration")
+//            }
+//            requestBuilder.addHeader("app-version", BuildConfig.VERSION_CODE.toString())
 
+            val request = requestBuilder.build()
+            val response = chain.proceed(request)
+            response
+        }
+    }
+
+    private fun interceptorWithOutBearer(): Interceptor {
+        return Interceptor { chain ->
+            val original = chain.request()
+            val requestBuilder = original.newBuilder()
+            requestBuilder.addHeader(CONTENT_TYPE, CONTENT_TYPE_VALUE)
+            requestBuilder.addHeader("app-version", BuildConfig.VERSION_CODE.toString())
             val request = requestBuilder.build()
             val response = chain.proceed(request)
             response

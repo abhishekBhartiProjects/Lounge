@@ -13,7 +13,7 @@ allprojects{
     ext{
         def major = 1
         def minor = 0
-        def patch = 0
+        def patch = 1
 
         versions = [
                 compileSdk          : 33,

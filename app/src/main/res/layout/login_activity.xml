@@ -4,8 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@drawable/gradient_purple"
     tools:context=".login.LoginActivity">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logoIv"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:srcCompat="@drawable/mahol"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="80dp"/>
 
     <!--  login screen  -->
     <com.abhishekbharti.lounge.common.SlideViewLayout
@@ -20,7 +30,7 @@
         app:animStartOffset="200"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <View
             android:id="@+id/invisibleView"
@@ -28,54 +38,7 @@
             android:layout_height="180dp"
             app:layout_constraintTop_toTopOf="parent"
             android:visibility="visible"
-            tools:visibility="gone"/>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/crossIv"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            app:srcCompat="@drawable/ic_cross_thin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"
             tools:visibility="visible"/>
-
-        <!--  skip  -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/skipMcv"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="20dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:visibility="visible"
-            app:cardBackgroundColor="#66000000"
-            app:cardCornerRadius="18dp"
-            app:cardElevation="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="#99FFFFFF"
-            app:strokeWidth="1dp"
-            tools:ignore="TouchTargetSizeCheck">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/skipTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="5dp"
-                android:text="Skip"
-                android:textColor="@color/white"
-                android:visibility="visible"
-                tools:ignore="TextContrastCheck"
-                tools:visibility="visible" />
-
-        </com.google.android.material.card.MaterialCardView>
 
         <!--            title-->
         <androidx.appcompat.widget.AppCompatTextView
@@ -106,7 +69,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/loginTitleTv"
-            app:strokeColor="#3E434C">
+            app:strokeColor="@color/white_40">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -118,7 +81,7 @@
                     android:id="@+id/countryFlagLl"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="#3E434C"
+                    android:background="@drawable/gradient_purple"
                     android:gravity="center_vertical">
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -141,6 +104,11 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="45dp"
+                    android:background="#66FFFFFF"/>
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/countryCodeTv"
                     android:layout_width="wrap_content"
@@ -151,7 +119,7 @@
                     android:gravity="center"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="12dp"
-                    android:textColor="#6A7181"
+                    android:textColor="@color/white_70"
                     android:textSize="16sp"
                     tools:ignore="TextContrastCheck"
                     tools:text="+91"
@@ -175,7 +143,7 @@
                     android:maxLines="1"
                     android:paddingVertical="12dp"
                     android:textColor="@color/white"
-                    android:textColorHint="#6A7181"
+                    android:textColorHint="@color/white_70"
                     android:textCursorDrawable="@null"
                     android:textSize="16sp"
                     tools:ignore="TouchTargetSizeCheck" />
@@ -188,7 +156,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/sendOtpButtonMcv"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="66dp"
             android:clickable="true"
@@ -261,7 +229,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/googleButtonMcv"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="20dp"
             android:clickable="true"
@@ -272,10 +240,9 @@
             app:cardCornerRadius="20dp"
             app:cardElevation="2dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/orTv"
-            app:strokeColor="#3E434C"
+            app:strokeColor="#66FFFFFF"
             app:strokeWidth="1dp"
             tools:ignore="TouchTargetSizeCheck"
             tools:visibility="visible">
@@ -331,7 +298,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <View
             android:id="@+id/invisibleView2"
