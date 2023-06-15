@@ -12,6 +12,19 @@ class HomeViewModel: BaseViewModel() {
 
     var promptResponseMLD: MutableLiveData<RequestResult<Any?>> = MutableLiveData()
     var generateImageResponseMLD: MutableLiveData<RequestResult<Any?>> = MutableLiveData()
+    var feedPostResponseMLD: MutableLiveData<RequestResult<Any?>> = MutableLiveData()
+
+    fun getFeedPosts(communityId: Int, page: Int){
+        viewModelScope.launch(exceptionHandler) {
+            try {
+                feedPostResponseMLD.value = RequestResult.Loading("")
+                val result = repo.getFeedPost(communityId, page)
+                feedPostResponseMLD.value = result
+            } catch (e: Exception) {
+                feedPostResponseMLD.value = RequestResult.OtherError(e)
+            }
+        }
+    }
 
     fun postPrompt(prompt: String){
         viewModelScope.launch(exceptionHandler){

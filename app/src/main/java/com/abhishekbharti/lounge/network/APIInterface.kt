@@ -5,6 +5,7 @@ import com.abhishekbharti.lounge.requestBody.GenerateImageRequestBody
 import com.abhishekbharti.lounge.requestBody.SendOtpRequestBody
 import com.abhishekbharti.lounge.requestBody.VerifyOtpRequestBody
 import com.abhishekbharti.lounge.response.CompletionResponse
+import com.abhishekbharti.lounge.response.FeedPostResponse
 import com.abhishekbharti.lounge.response.GenerateImageResponse
 import com.abhishekbharti.lounge.response.SendOtpResponse
 import com.abhishekbharti.lounge.response.TranscriptionResponse
@@ -18,6 +19,7 @@ import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Query
 
 interface APIInterface {
 
@@ -51,4 +53,10 @@ interface APIInterface {
 
     @GET("users/me")
     suspend fun getUserDetails():Response<UserDetailsResponse>
+
+    @GET("api/v1/posts/get-posts/?community_id=1&page=1")
+    suspend fun getFeedPost(
+        @Query("community_id") communityId: Int,
+        @Query("page") page: Int
+    ): Response<FeedPostResponse>
 }

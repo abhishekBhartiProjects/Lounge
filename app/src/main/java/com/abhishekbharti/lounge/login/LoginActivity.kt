@@ -1,5 +1,6 @@
 package com.abhishekbharti.lounge.login
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -15,6 +16,7 @@ import com.abhishekbharti.lounge.common.PhoneNumberUtils
 import com.abhishekbharti.lounge.common.SharedPreferenceManager
 import com.abhishekbharti.lounge.common.SlideViewLayout
 import com.abhishekbharti.lounge.databinding.LoginActivityBinding
+import com.abhishekbharti.lounge.home.HomeActivity
 import com.abhishekbharti.lounge.network.RequestResult
 import com.abhishekbharti.lounge.response.SendOtpResponse
 import com.abhishekbharti.lounge.response.VerifyOtpResponse
@@ -189,7 +191,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun onVerifyOtpResponseSuccess(verifyOtpResponse: VerifyOtpResponse){
-        SharedPreferenceManager.setUserSessionToken(verifyOtpResponse.token ?: "")
+        if(verifyOtpResponse.token.isNotEmpty()){
+            SharedPreferenceManager.setUserSessionToken(verifyOtpResponse.token)
+            navigateToNextScreen()
+        } else {
+            Toast.makeText(this, "Invalid token!", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun initOtpScreen() {
@@ -229,5 +236,10 @@ class LoginActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             comingView?.enterRightToLeft()
         }, SlideViewLayout.animDuration)
+    }
+
+    private fun navigateToNextScreen(){
+        startActivity(Intent(this, HomeActivity::class.java))
+        finish()
     }
 }

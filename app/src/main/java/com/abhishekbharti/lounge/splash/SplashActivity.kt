@@ -14,6 +14,7 @@ import com.abhishekbharti.lounge.LoungeApplication
 import com.abhishekbharti.lounge.R
 import com.abhishekbharti.lounge.common.SharedPreferenceManager
 import com.abhishekbharti.lounge.databinding.SplashActivityBinding
+import com.abhishekbharti.lounge.home.HomeActivity
 import com.abhishekbharti.lounge.home.HomeViewModel
 import com.abhishekbharti.lounge.login.LoginActivity
 import com.abhishekbharti.lounge.network.RequestResult
@@ -66,16 +67,16 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun initNavigation(){
-        Handler(Looper.getMainLooper()).postDelayed({
-            openLogin()
-        }, 2000)
-//        if(SharedPreferenceManager.getUserSessionToken().isNotEmpty()){
-//            getUserDetails()
-//        } else {
-//            Handler(Looper.getMainLooper()).postDelayed({
-//                openLogin()
-//            }, 2000)
-//        }
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            openLogin()
+//        }, 2000)
+        if(SharedPreferenceManager.getUserSessionToken().isNotEmpty()){
+            getUserDetails()
+        } else {
+            Handler(Looper.getMainLooper()).postDelayed({
+                openLogin()
+            }, 2000)
+        }
     }
 
     private fun onGetUserSuccess(userDetailsResponse: UserDetailsResponse){
@@ -87,7 +88,14 @@ class SplashActivity : AppCompatActivity() {
         finish()
     }
     private fun getUserDetails(){
-        viewModel.getUserDetails()
+//        viewModel.getUserDetails()
+
+        openHome()
+    }
+
+    private fun openHome(){
+        startActivity(Intent(this, HomeActivity::class.java))
+        finish()
     }
 
 

@@ -6,29 +6,60 @@ import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.abhishekbharti.lounge.R
+import com.abhishekbharti.lounge.common.SharedPreferenceManager
 import com.abhishekbharti.lounge.databinding.HomeActivityBinding
+import com.abhishekbharti.lounge.network.RequestResult
+import com.abhishekbharti.lounge.response.FeedPostResponse
 import org.jetbrains.annotations.Nullable
 import java.util.Locale
 import java.util.Objects
-import java.util.zip.Inflater
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var mBinding: HomeActivityBinding
     private val viewModel: HomeViewModel by viewModels()
+    private var adapter: HomeAdapter? = null
     private val REQUEST_CODE_SPEECH_INPUT = 1
+    private var mFeedPostResponse: FeedPostResponse? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = HomeActivityBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
 
+        initViewModel()
         initView()
     }
 
-    private fun initView() {
+    override fun onResume() {
+        super.onResume()
+        viewModel.getFeedPosts(SharedPreferenceManager.getCurrentCommunityId(), 1)
+    }
 
+    private fun initViewModel(){
+        viewModel.feedPostResponseMLD.observe(this){
+            when(it){
+                is RequestResult.Loading -> {}
+                is RequestResult.Success -> {
+                    onGetFeedPostResponseSuccess(it.data as FeedPostResponse)
+                }
+                else -> {}
+            }
+        }
+    }
+    private fun initView() {
+        initAdapter()
+    }
+
+    private fun initAdapter(){
+        mBinding.apply {
+            adapter = HomeAdapter(viewModel)
+
+            feedListRv.layoutManager = LinearLayoutManager(this@HomeActivity, LinearLayoutManager.VERTICAL, true)
+            feedListRv.adapter = adapter
+        }
     }
 
     private fun startAudioRecording(){
@@ -69,5 +100,10 @@ class HomeActivity : AppCompatActivity() {
                 viewModel.generateImage(prompt)
             }
         }
+    }
+
+    private fun onGetFeedPostResponseSuccess(response: FeedPostResponse){
+        mFeedPostResponse = response
+        adapter?.submitList(response.post)
     }
 }
