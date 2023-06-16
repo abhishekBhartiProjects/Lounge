@@ -114,4 +114,7 @@ dependencies {
     //Scalable dp and sp
     api 'com.intuit.sdp:sdp-android:1.1.0'
     implementation 'com.intuit.ssp:ssp-android:1.1.0'
+
+    api 'com.karumi:dexter:6.2.3'
+//    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
 }

@@ -2,7 +2,13 @@ package com.abhishekbharti.lounge.common
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.os.Environment
+import java.io.File
+import java.io.IOException
 import java.net.InetAddress
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 object CommonUtil {
@@ -19,5 +25,13 @@ object CommonUtil {
         } catch (e: Exception) {
             false
         }
+    }
+
+    @Throws(IOException::class)
+    fun createImageFile(context: Context): File {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val imageFileName = "IMG_" + timeStamp + "_"
+        val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(imageFileName, ".jpg", storageDir)
     }
 }

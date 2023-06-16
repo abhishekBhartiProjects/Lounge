@@ -12,6 +12,7 @@ import com.abhishekbharti.lounge.response.SendOtpResponse
 import com.abhishekbharti.lounge.response.TranscriptionResponse
 import com.abhishekbharti.lounge.response.UserDetailsResponse
 import com.abhishekbharti.lounge.response.VerifyOtpResponse
+import io.reactivex.Observable
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -20,6 +21,7 @@ import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface APIInterface {
@@ -60,4 +62,11 @@ interface APIInterface {
         @Query("community_id") communityId: Int,
         @Query("page") page: Int
     ): Response<FeedPostResponse>
+
+    @Multipart
+    @POST("api/v1/users/update-profile/")
+    fun updateProfile(
+        @Part("name") name: RequestBody,
+        @Part avatar: MultipartBody.Part?
+    ): Response<ProfileResponse>
 }

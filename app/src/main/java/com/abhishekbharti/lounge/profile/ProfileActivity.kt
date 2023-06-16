@@ -2,10 +2,12 @@ package com.abhishekbharti.lounge.profile
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.fragment.app.FragmentTransaction
 import com.abhishekbharti.lounge.R
 import com.abhishekbharti.lounge.databinding.HomeActivityBinding
 import com.abhishekbharti.lounge.databinding.ProfileActivityBinding
+import com.abhishekbharti.lounge.home.HomeViewModel
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -27,7 +29,9 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setEditProfileFragment(){
-        val frag = EditProfileFragment.newInstance()
+        val bundle = Bundle()
+        bundle.putString("source", "onboarding")
+        val frag = EditProfileFragment.newInstance(bundle)
 
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
