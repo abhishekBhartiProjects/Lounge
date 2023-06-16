@@ -24,7 +24,7 @@ class CommunityActivity : AppCompatActivity() {
 
     private fun initView(){
         val bundle = Bundle()
-        val frag = CommunitySuggestionFragment.newInstance(viewModel)
+        val frag = CommunitySuggestionFragment.newInstance()
 
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)

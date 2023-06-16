@@ -83,6 +83,29 @@ object APIObject {
         }
     }
 
+//    private fun interceptorAI(cacheDuration: Long): Interceptor {
+//        return Interceptor { chain ->
+//            val original = chain.request()
+//            val requestBuilder = original.newBuilder()
+////            if(SharedPreferenceManager.getUserSessionToken().isNotEmpty()){
+////                requestBuilder.addHeader("Authorization", SharedPreferenceManager.getUserSessionToken())
+////            }
+//
+////            requestBuilder.addHeader(CONTENT_TYPE, CONTENT_TYPE_VALUE)
+////            requestBuilder.addHeader("Authorization", "Bearer ${SharedPreferenceManager.getUserSessionToken()}")
+//            requestBuilder.addHeader("Authorization", "Bearer ${BuildConfig.OPENAPI_KEY}")
+//
+////            if (cacheDuration > 0) {
+////                requestBuilder.addHeader("Cache-Control", "public, max-age=$cacheDuration")
+////            }
+////            requestBuilder.addHeader("app-version", BuildConfig.VERSION_CODE.toString())
+//
+//            val request = requestBuilder.build()
+//            val response = chain.proceed(request)
+//            response
+//        }
+//    }
+
     private fun interceptorWithOutBearer(): Interceptor {
         return Interceptor { chain ->
             val original = chain.request()

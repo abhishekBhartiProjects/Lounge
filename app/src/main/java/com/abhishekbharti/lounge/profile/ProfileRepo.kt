@@ -2,6 +2,7 @@ package com.abhishekbharti.lounge.profile
 
 import com.abhishekbharti.lounge.base.BaseRepo
 import com.abhishekbharti.lounge.network.RequestResult
+import com.abhishekbharti.lounge.response.FeedPostResponse
 import com.abhishekbharti.lounge.response.ProfileResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -20,6 +21,18 @@ class ProfileRepo: BaseRepo() {
                     RequestResult.Success(it.body())
                 }
             )
+        }
+    }
+
+    suspend fun getProfile(id: Int): RequestResult<ProfileResponse?> {
+        return withContext(Dispatchers.IO) {
+            return@withContext handleCommonResponse(
+                {
+                    apiInterface.getMember(id)
+                },
+                { RequestResult.Success(it.body()) }
+            )
+
         }
     }
 }

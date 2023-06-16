@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
+import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.abhishekbharti.lounge.R
 import com.abhishekbharti.lounge.databinding.CommunitySuggestionFragmentBinding
@@ -17,11 +20,11 @@ import com.abhishekbharti.lounge.response.GetAllCommunityResponse
 
 class CommunitySuggestionFragment : Fragment() {
     var mBinding: CommunitySuggestionFragmentBinding? = null
-    private var mViewModel: CommunityViewModel? = null
+    private val viewModel: CommunityViewModel by viewModels()
     private var adapter: CommunitySuggestionAdapter? = null
     companion object {
-        fun newInstance(viewModel: CommunityViewModel): CommunitySuggestionFragment = CommunitySuggestionFragment().apply {
-            mViewModel = viewModel
+        fun newInstance(): CommunitySuggestionFragment = CommunitySuggestionFragment().apply {
+
         }
     }
 
@@ -41,7 +44,7 @@ class CommunitySuggestionFragment : Fragment() {
     }
 
     private fun initViewModel(){
-        mViewModel?.getAllCommunityResponseMLD?.observe(viewLifecycleOwner){
+        viewModel.getAllCommunityResponseMLD.observe(viewLifecycleOwner){
             when(it){
                 is RequestResult.Loading -> {}
                 is RequestResult.Success -> {
@@ -54,7 +57,8 @@ class CommunitySuggestionFragment : Fragment() {
 
     private fun initView(){
         initAdapter()
-        mViewModel?.getAllCommunity()
+        viewModel.getAllCommunity()
+        initClickListener()
     }
 
     private fun onGetAllCommunityResponseSuccess(getAllCommunityResponse: GetAllCommunityResponse){
@@ -63,9 +67,22 @@ class CommunitySuggestionFragment : Fragment() {
 
     private fun initAdapter(){
         mBinding?.apply {
-            adapter = CommunitySuggestionAdapter(mViewModel!!)
+            adapter = CommunitySuggestionAdapter(viewModel)
             list.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             list.adapter = adapter
+        }
+    }
+
+    private fun initClickListener(){
+        mBinding?.apply {
+            createTv.setOnClickListener {
+                val frag = CreateCommunityFragment.newInstance(viewModel)
+
+                val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
+                fragmentTransaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                fragmentTransaction?.replace(R.id.fragmentContainer, frag, "CommunitySuggestionFragment")
+                fragmentTransaction?.commitAllowingStateLoss()
+            }
         }
     }
 

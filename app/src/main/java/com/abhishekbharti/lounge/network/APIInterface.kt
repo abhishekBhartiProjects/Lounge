@@ -1,11 +1,13 @@
 package com.abhishekbharti.lounge.network
 
 import com.abhishekbharti.lounge.requestBody.CompletionRequestBody
+import com.abhishekbharti.lounge.requestBody.CreateCommunityRequestBody
 import com.abhishekbharti.lounge.requestBody.GenerateImageRequestBody
 import com.abhishekbharti.lounge.requestBody.QamRequestBody
 import com.abhishekbharti.lounge.requestBody.SendOtpRequestBody
 import com.abhishekbharti.lounge.requestBody.VerifyOtpRequestBody
 import com.abhishekbharti.lounge.response.CompletionResponse
+import com.abhishekbharti.lounge.response.CreateCommunityResponse
 import com.abhishekbharti.lounge.response.CreateQamResponse
 import com.abhishekbharti.lounge.response.FeedPostResponse
 import com.abhishekbharti.lounge.response.GenerateImageResponse
@@ -34,6 +36,11 @@ interface APIInterface {
     suspend fun postPrompt(
         @Body completionRequestBody: CompletionRequestBody
     ): Response<CompletionResponse>
+
+    @POST("api/v1/community/create-community/")
+    suspend fun createCommunity(
+        @Body createCommunityRequestBody: CreateCommunityRequestBody
+    ): Response<CreateCommunityResponse>
 
     @POST("api/v1/community/create-qam/")
     suspend fun createQam(
@@ -65,6 +72,11 @@ interface APIInterface {
 
     @GET("api/v1/users/profile")
     suspend fun getProfile():Response<ProfileResponse>
+
+    @GET("api/v1/users/profile")//todo check
+    suspend fun getMember(
+        @Query("id") id: Int
+    ):Response<ProfileResponse>
 
     @GET("api/v1/posts/get-posts/?community_id=1&page=1")
     suspend fun getFeedPost(

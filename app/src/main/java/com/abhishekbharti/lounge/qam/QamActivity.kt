@@ -20,7 +20,8 @@ class QamActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.qam_activity)
+        mBinding = QamActivityBinding.inflate(layoutInflater)
+        setContentView(mBinding.root)
 
         initViewModel()
         initView()
@@ -50,7 +51,10 @@ class QamActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(this@QamActivity, "Invalid input", Toast.LENGTH_SHORT).show()
                 }
+            }
 
+            cancelBtn.setOnClickListener {
+                onBackPressed()
             }
         }
     }

@@ -11,6 +11,7 @@ class CommunityViewModel: BaseViewModel() {
     private val repo = CommunityRepo()
 
     var getAllCommunityResponseMLD: MutableLiveData<RequestResult<Any?>> = MutableLiveData()
+    var createCommunityResponseMLD: MutableLiveData<RequestResult<Any?>> = MutableLiveData()
 
     fun getAllCommunity(){
         viewModelScope.launch(exceptionHandler) {
@@ -20,6 +21,18 @@ class CommunityViewModel: BaseViewModel() {
                 getAllCommunityResponseMLD.value = result
             } catch (e: Exception) {
                 getAllCommunityResponseMLD.value = RequestResult.OtherError(e)
+            }
+        }
+    }
+
+    fun createCommunity(name: String){
+        viewModelScope.launch(exceptionHandler){
+            try{
+                createCommunityResponseMLD.value = RequestResult.Loading("")
+                val result = repo.createCommunity(name)
+                createCommunityResponseMLD.value = result
+            } catch (e: Exception){
+                createCommunityResponseMLD.value = RequestResult.OtherError(e)
             }
         }
     }

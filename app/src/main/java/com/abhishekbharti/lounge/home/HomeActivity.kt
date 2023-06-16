@@ -9,9 +9,12 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.abhishekbharti.lounge.R
 import com.abhishekbharti.lounge.common.SharedPreferenceManager
+import com.abhishekbharti.lounge.community.CommunitySuggestionBottomsheet
 import com.abhishekbharti.lounge.databinding.HomeActivityBinding
 import com.abhishekbharti.lounge.network.RequestResult
 import com.abhishekbharti.lounge.qam.QamActivity
+import com.abhishekbharti.lounge.qam.WebviewActivity
+import com.abhishekbharti.lounge.response.CompletionResponse
 import com.abhishekbharti.lounge.response.FeedPostResponse
 import com.abhishekbharti.lounge.response.GetCommunityDetailResponse
 import org.jetbrains.annotations.Nullable
@@ -33,6 +36,23 @@ class HomeActivity : AppCompatActivity() {
 
         initViewModel()
         initView()
+        initClickListeners()
+    }
+
+    private fun initClickListeners(){
+        mBinding.apply {
+            currentCummunityNameTv.setOnClickListener {
+                val communityDialog = CommunitySuggestionBottomsheet.newInstance(Bundle())
+
+                if (!isFinishing) {
+                    communityDialog.show(supportFragmentManager, "CommunitySuggestionBottomsheet")
+                }
+            }
+
+            membersTv.setOnClickListener {
+
+            }
+        }
     }
 
     override fun onResume() {
@@ -57,11 +77,41 @@ class HomeActivity : AppCompatActivity() {
 
                         qam1Tv.setOnClickListener {
                             Toast.makeText(this@HomeActivity, "Open in webview", Toast.LENGTH_SHORT).show()
+                            val bundle = Bundle()
+                            bundle.putString("url", qamList.get(0).link)
+                            val intent = Intent(this@HomeActivity, WebviewActivity::class.java)
+                            intent.putExtras(bundle)
+
+                            startActivity(intent)
+
                         }
                         qam2Tv.setOnClickListener {
                             Toast.makeText(this@HomeActivity, "Open in webview", Toast.LENGTH_SHORT).show()
+                            val bundle = Bundle()
+                            bundle.putString("url", qamList.get(1).link)
+                            val intent = Intent(this@HomeActivity, WebviewActivity::class.java)
+                            intent.putExtras(bundle)
+
+                            startActivity(intent)
+                        }
+
+                        qam3Tv.setOnClickListener {
+                            viewModel.postPrompt("My name is Abhishek, Can you write an email to apply sick leave for 2 days to my manager Vikas")
                         }
                     }
+                }
+                else -> {}
+            }
+        }
+
+        viewModel.promptResponseMLD.observe(this){
+            when(it){
+                is RequestResult.Loading -> {}
+                is RequestResult.Success -> {
+                    val data = (it.data as CompletionResponse)
+                    val res = data.choices.get(0).text
+
+                    Toast.makeText(this, res, Toast.LENGTH_LONG).show()
                 }
                 else -> {}
             }

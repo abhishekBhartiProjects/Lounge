@@ -38,13 +38,6 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun initViewModelObserver(){
-        viewModel.getUserDetailsResponseMLD.observe(this){
-            when(it){
-                is RequestResult.Loading -> {}
-                is RequestResult.Success -> { onGetUserSuccess(it.data as UserDetailsResponse)}
-                else -> { Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show()}
-            }
-        }
 
         loginViewModel.getProfileResponseMLD.observe(this) {
             when(it) {
@@ -92,10 +85,6 @@ class SplashActivity : AppCompatActivity() {
                 openLogin()
             }, 2000)
         }
-    }
-
-    private fun onGetUserSuccess(userDetailsResponse: UserDetailsResponse){
-
     }
 
     private fun openLogin(){
