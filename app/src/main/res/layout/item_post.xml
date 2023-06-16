@@ -36,7 +36,7 @@
                 app:layout_constraintTop_toTopOf="@id/dpIv"
                 app:layout_constraintEnd_toStartOf="@id/timeTv"
                 app:layout_constraintHorizontal_bias="0"
-                tools:text="Abhishek Bharti" />
+                android:text="Abhishek Bharti" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/departmentTv"
@@ -46,7 +46,7 @@
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@id/userNameTv"
                 app:layout_constraintTop_toBottomOf="@id/userNameTv"
-                tools:text="Content Team" />
+                android:text="Content Team" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/timeTv"
@@ -56,7 +56,7 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/userNameTv"
-                tools:text="5 min Ago" />
+                android:text="5 min Ago" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/postTextTv"
@@ -71,7 +71,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dpIv"
-                tools:text="Happy Diwali! Let celebrate the festival in the true sense by spreading joy and light up the world of others. Have a happy, safe, and blessed Diwali! With the shining of diyas and the echoes of the chants, may prosperity and happiness of this festival of lights fill our lives." />
+                android:text="Happy Diwali! Let celebrate the festival in the true sense by spreading joy and light up the world of others. Have a happy, safe, and blessed Diwali! With the shining of diyas and the echoes of the chants, may prosperity and happiness of this festival of lights fill our lives." />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/postImageIv"
@@ -100,7 +100,7 @@
                 android:layout_marginBottom="6dp"
                 app:layout_constraintStart_toEndOf="@id/reactionIv"
                 app:layout_constraintBottom_toBottomOf="@id/reactionIv"
-                tools:text="298 reaction" />
+                android:text="298 reaction" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/shareIv"

@@ -10,6 +10,7 @@ import com.abhishekbharti.lounge.response.CreateQamResponse
 import com.abhishekbharti.lounge.response.FeedPostResponse
 import com.abhishekbharti.lounge.response.GenerateImageResponse
 import com.abhishekbharti.lounge.response.GetAllCommunityResponse
+import com.abhishekbharti.lounge.response.GetCommunityDetailResponse
 import com.abhishekbharti.lounge.response.ProfileResponse
 import com.abhishekbharti.lounge.response.SendOtpResponse
 import com.abhishekbharti.lounge.response.TranscriptionResponse
@@ -70,6 +71,11 @@ interface APIInterface {
         @Query("community_id") communityId: Int,
         @Query("page") page: Int
     ): Response<FeedPostResponse>
+
+    @GET("api/v1/community/get-community/")
+    suspend fun getCommunityDetails(
+        @Query("id") communityId: Int
+    ): Response<GetCommunityDetailResponse>
 
     @GET("api/v1/community/get-communities/?page=1")
     suspend fun getAllCommunity(): Response<GetAllCommunityResponse>

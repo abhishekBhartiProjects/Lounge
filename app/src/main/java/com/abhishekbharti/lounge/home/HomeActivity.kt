@@ -11,7 +11,9 @@ import com.abhishekbharti.lounge.R
 import com.abhishekbharti.lounge.common.SharedPreferenceManager
 import com.abhishekbharti.lounge.databinding.HomeActivityBinding
 import com.abhishekbharti.lounge.network.RequestResult
+import com.abhishekbharti.lounge.qam.QamActivity
 import com.abhishekbharti.lounge.response.FeedPostResponse
+import com.abhishekbharti.lounge.response.GetCommunityDetailResponse
 import org.jetbrains.annotations.Nullable
 import java.util.Locale
 import java.util.Objects
@@ -35,10 +37,36 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        viewModel.getCommunityDetails(SharedPreferenceManager.getCurrentCommunityId())
         viewModel.getFeedPosts(SharedPreferenceManager.getCurrentCommunityId(), 1)
     }
 
     private fun initViewModel(){
+        viewModel.communityDetailResponseMLD.observe(this){
+            when(it){
+                is RequestResult.Loading -> {}
+                is RequestResult.Success -> {
+                    val qamList = (it.data as GetCommunityDetailResponse).community_qams
+                    mBinding.apply {
+                        qam1Tv.text = qamList.get(0).title
+                        qam2Tv.text = qamList.get(1).title
+
+                        qamCreateTv.setOnClickListener {
+                            startActivity(Intent(this@HomeActivity, QamActivity::class.java))
+                        }
+
+                        qam1Tv.setOnClickListener {
+                            Toast.makeText(this@HomeActivity, "Open in webview", Toast.LENGTH_SHORT).show()
+                        }
+                        qam2Tv.setOnClickListener {
+                            Toast.makeText(this@HomeActivity, "Open in webview", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+                else -> {}
+            }
+        }
+
         viewModel.feedPostResponseMLD.observe(this){
             when(it){
                 is RequestResult.Loading -> {}

@@ -39,6 +39,52 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bottomMenubar"/>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/qamCl"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:layout_constraintTop_toBottomOf="@id/actionbar">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/qamCreateTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create QAM"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:background="@color/purple_7351B8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/qam1Tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QAM1"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:layout_marginStart="5dp"
+            android:background="@color/blue_1DA1F2"
+            app:layout_constraintStart_toEndOf="@id/qamCreateTv"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/qam2Tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QAM2"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:layout_marginStart="5dp"
+            android:background="@color/yellow_E3B100"
+            app:layout_constraintStart_toEndOf="@id/qam1Tv"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/feedListRv"
         android:layout_width="match_parent"
@@ -47,7 +93,7 @@
         android:paddingHorizontal="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/actionbar"
+        app:layout_constraintTop_toBottomOf="@id/qamCl"
         app:layout_constraintBottom_toTopOf="@id/shadow"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout >

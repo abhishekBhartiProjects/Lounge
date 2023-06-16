@@ -9,6 +9,7 @@ import com.abhishekbharti.lounge.requestBody.SendOtpRequestBody
 import com.abhishekbharti.lounge.response.CompletionResponse
 import com.abhishekbharti.lounge.response.FeedPostResponse
 import com.abhishekbharti.lounge.response.GenerateImageResponse
+import com.abhishekbharti.lounge.response.GetCommunityDetailResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -19,6 +20,18 @@ class HomeRepo: BaseRepo() {
             return@withContext handleCommonResponse(
                 {
                     apiInterface.getFeedPost(communityId, page)
+                },
+                { RequestResult.Success(it.body()) }
+            )
+
+        }
+    }
+
+    suspend fun getCommunityDetails(communityId: Int): RequestResult<GetCommunityDetailResponse?> {
+        return withContext(Dispatchers.IO) {
+            return@withContext handleCommonResponse(
+                {
+                    apiInterface.getCommunityDetails(communityId)
                 },
                 { RequestResult.Success(it.body()) }
             )

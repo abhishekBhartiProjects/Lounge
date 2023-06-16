@@ -13,6 +13,7 @@ class HomeViewModel: BaseViewModel() {
     var promptResponseMLD: MutableLiveData<RequestResult<Any?>> = MutableLiveData()
     var generateImageResponseMLD: MutableLiveData<RequestResult<Any?>> = MutableLiveData()
     var feedPostResponseMLD: MutableLiveData<RequestResult<Any?>> = MutableLiveData()
+    var communityDetailResponseMLD: MutableLiveData<RequestResult<Any?>> = MutableLiveData()
 
     fun getFeedPosts(communityId: Int, page: Int){
         viewModelScope.launch(exceptionHandler) {
@@ -22,6 +23,18 @@ class HomeViewModel: BaseViewModel() {
                 feedPostResponseMLD.value = result
             } catch (e: Exception) {
                 feedPostResponseMLD.value = RequestResult.OtherError(e)
+            }
+        }
+    }
+
+    fun getCommunityDetails(communityId: Int){
+        viewModelScope.launch(exceptionHandler) {
+            try {
+                communityDetailResponseMLD.value = RequestResult.Loading("")
+                val result = repo.getCommunityDetails(communityId)
+                communityDetailResponseMLD.value = result
+            } catch (e: Exception) {
+                communityDetailResponseMLD.value = RequestResult.OtherError(e)
             }
         }
     }

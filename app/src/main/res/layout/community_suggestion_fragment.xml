@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:overScrollMode="never"
             android:scrollbars="none"
-            android:background="#191B1F"
+            android:background="@color/white"
             android:paddingBottom="250dp"
             android:clipToPadding="false"
             app:layout_constraintTop_toBottomOf="@id/top_banner_cl"/>
