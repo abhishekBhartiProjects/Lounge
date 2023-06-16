@@ -5,56 +5,68 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.abhishekbharti.lounge.R
+import com.abhishekbharti.lounge.databinding.CommunitySuggestionFragmentBinding
+import com.abhishekbharti.lounge.databinding.EditProfileFragmentBinding
+import com.abhishekbharti.lounge.home.HomeAdapter
+import com.abhishekbharti.lounge.network.RequestResult
+import com.abhishekbharti.lounge.profile.EditProfileFragment
+import com.abhishekbharti.lounge.response.FeedPostResponse
+import com.abhishekbharti.lounge.response.GetAllCommunityResponse
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [CommunitySuggestionFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CommunitySuggestionFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    var mBinding: CommunitySuggestionFragmentBinding? = null
+    private var mViewModel: CommunityViewModel? = null
+    private var adapter: CommunitySuggestionAdapter? = null
+    companion object {
+        fun newInstance(viewModel: CommunityViewModel): CommunitySuggestionFragment = CommunitySuggestionFragment().apply {
+            mViewModel = viewModel
         }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.community_suggestion_fragment, container, false)
+        mBinding = CommunitySuggestionFragmentBinding.inflate(inflater, container, false)
+        return mBinding?.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CommunitySuggestionFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CommunitySuggestionFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViewModel()
+        initView()
     }
+
+    private fun initViewModel(){
+        mViewModel?.getAllCommunityResponseMLD?.observe(viewLifecycleOwner){
+            when(it){
+                is RequestResult.Loading -> {}
+                is RequestResult.Success -> {
+                    onGetAllCommunityResponseSuccess(it.data as GetAllCommunityResponse)
+                }
+                else -> {}
+            }
+        }
+    }
+
+    private fun initView(){
+        initAdapter()
+        mViewModel?.getAllCommunity()
+    }
+
+    private fun onGetAllCommunityResponseSuccess(getAllCommunityResponse: GetAllCommunityResponse){
+        adapter?.submitList(getAllCommunityResponse.communities)
+    }
+
+    private fun initAdapter(){
+        mBinding?.apply {
+            adapter = CommunitySuggestionAdapter(mViewModel!!)
+            list.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            list.adapter = adapter
+        }
+    }
+
 }

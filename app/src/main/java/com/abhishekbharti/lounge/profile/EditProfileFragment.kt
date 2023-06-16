@@ -87,7 +87,11 @@ class EditProfileFragment: Fragment() {
                 is RequestResult.Success -> {
                     onUpdateProfileSuccess(it.data as ProfileResponse)
                 }
-                else -> {}
+                else -> {
+                    Toast.makeText(requireContext(), "Couldnot update profile", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(requireContext(), CommunityActivity::class.java))
+                    activity?.finish()
+                }
             }
         }
     }

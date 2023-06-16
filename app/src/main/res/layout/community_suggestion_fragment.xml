@@ -11,7 +11,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             android:paddingBottom="20dp"
-            android:background="#191B1F">
+            android:background="@color/purple_7351B8">
 
             <View
                 android:id="@+id/handle"

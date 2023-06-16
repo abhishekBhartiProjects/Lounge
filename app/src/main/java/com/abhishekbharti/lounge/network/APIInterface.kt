@@ -2,11 +2,14 @@ package com.abhishekbharti.lounge.network
 
 import com.abhishekbharti.lounge.requestBody.CompletionRequestBody
 import com.abhishekbharti.lounge.requestBody.GenerateImageRequestBody
+import com.abhishekbharti.lounge.requestBody.QamRequestBody
 import com.abhishekbharti.lounge.requestBody.SendOtpRequestBody
 import com.abhishekbharti.lounge.requestBody.VerifyOtpRequestBody
 import com.abhishekbharti.lounge.response.CompletionResponse
+import com.abhishekbharti.lounge.response.CreateQamResponse
 import com.abhishekbharti.lounge.response.FeedPostResponse
 import com.abhishekbharti.lounge.response.GenerateImageResponse
+import com.abhishekbharti.lounge.response.GetAllCommunityResponse
 import com.abhishekbharti.lounge.response.ProfileResponse
 import com.abhishekbharti.lounge.response.SendOtpResponse
 import com.abhishekbharti.lounge.response.TranscriptionResponse
@@ -30,6 +33,11 @@ interface APIInterface {
     suspend fun postPrompt(
         @Body completionRequestBody: CompletionRequestBody
     ): Response<CompletionResponse>
+
+    @POST("api/v1/community/create-qam/")
+    suspend fun createQam(
+        @Body qamRequestBody: QamRequestBody
+    ): Response<CreateQamResponse>
 
     @POST("v1/images/generations")
     suspend fun generateImage(
@@ -62,6 +70,9 @@ interface APIInterface {
         @Query("community_id") communityId: Int,
         @Query("page") page: Int
     ): Response<FeedPostResponse>
+
+    @GET("api/v1/community/get-communities/?page=1")
+    suspend fun getAllCommunity(): Response<GetAllCommunityResponse>
 
     @Multipart
     @POST("api/v1/users/update-profile/")
